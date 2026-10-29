@@ -63,6 +63,7 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
+      APP_MODE: demo
       DATABASE_URL: postgresql+psycopg://cyberlens:cyberlens@localhost:5432/cyberlens
     steps:
       - uses: actions/checkout@v6

@@ -610,8 +610,9 @@ test('UI-01 preserves the measured login illustration and form at desktop, table
         }),
       }
     })
+    // The offline Demo banner adds height to the narrow login card.
     const geometry = width === 390
-      ? { layout: [20, 155.69, 350, 532.63], story: [0, 0, 0, 0], illustration: [0, 0, 0, 0], card: [20, 155.69, 350, 532.63] }
+      ? { layout: [20, 130.42, 350, 583.16], story: [0, 0, 0, 0], illustration: [0, 0, 0, 0], card: [20, 130.42, 350, 583.16] }
       : width === 768
         ? { layout: [20, 131.13, 728, 637.75], story: [26, 182.86, 376.36, 534.28], illustration: [11, 381.27, 406.36, 252.73], card: [428.36, 155.13, 313.64, 589.75] }
         : { layout: [150, 123.67, 1140, 652.66], story: [170, 159.67, 552.88, 580.66], illustration: [155, 388.23, 582.88, 307.05], card: [810, 174.27, 460, 551.47] }
