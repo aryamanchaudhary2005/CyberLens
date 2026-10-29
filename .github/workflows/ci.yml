@@ -207,7 +207,7 @@ jobs:
           docker build --tag cyberlens-frontend:ci ./frontend
           docker build --tag cyberlens-gateway:ci ./gateway
       - name: Scan the source tree
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: fs
           scan-ref: .
@@ -215,19 +215,19 @@ jobs:
           severity: HIGH,CRITICAL
           exit-code: 1
       - name: Scan API image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: cyberlens-api:ci
           severity: HIGH,CRITICAL
           exit-code: 1
       - name: Scan frontend image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: cyberlens-frontend:ci
           severity: HIGH,CRITICAL
           exit-code: 1
       - name: Scan gateway image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: cyberlens-gateway:ci
           severity: HIGH,CRITICAL
