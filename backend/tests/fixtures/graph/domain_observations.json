@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-10-01T12:00:00+00:00",
+  "dns": {
+    "submitted_host": "portal.example.test",
+    "records": {
+      "A": {"status": "success", "values": ["203.0.113.14"]},
+      "AAAA": {"status": "no_match", "values": []}
+    },
+    "domain_to_ip": {"A": ["203.0.113.14"], "AAAA": []}
+  },
+  "website": {
+    "submitted_url": "https://portal.example.test/",
+    "https": {
+      "redirect_hops": [
+        {"from_url": "https://portal.example.test/", "status_code": 301, "to_url": "https://login.example.test/"}
+      ],
+      "tls_version": "TLSv1.3",
+      "negotiated_protocol": "http/1.1"
+    },
+    "certificate": {
+      "subject": "portal.example.test",
+      "issuer": "Example Test CA",
+      "tls_hostname": "portal.example.test",
+      "sha256_fingerprint": "aabbccdd00112233445566778899aabbccddeeff00112233445566778899aabb",
+      "hostname_match": true,
+      "trust_valid": true,
+      "not_after": "2027-01-01T00:00:00+00:00",
+      "tls_version": "TLSv1.3",
+      "negotiated_protocol": "http/1.1"
+    }
+  }
+}

@@ -1,0 +1,245 @@
+name: CyberLens CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend-tests:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - name: Install backend and test dependencies
+        working-directory: backend
+        run: python -m pip install -r requirements.lock .
+      - name: Run backend tests
+        working-directory: backend
+        run: python -m pytest -q
+
+  frontend:
+    name: Frontend checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Check TypeScript
+        working-directory: frontend
+        run: npm run typecheck
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+  postgres-migrations:
+    name: Clean PostgreSQL migrations
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: cyberlens
+          POSTGRES_USER: cyberlens
+          POSTGRES_PASSWORD: cyberlens
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U cyberlens -d cyberlens"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://cyberlens:cyberlens@localhost:5432/cyberlens
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - name: Install backend dependencies
+        working-directory: backend
+        run: python -m pip install -r requirements.lock .
+      - name: Apply migrations to the empty service database
+        working-directory: backend
+        run: alembic upgrade head
+      - name: Check migrated schema against the models
+        working-directory: backend
+        run: alembic check
+
+  legacy-migration-upgrades:
+    name: Legacy schema upgrade and saved-record preservation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - name: Install backend and migration-test dependencies
+        working-directory: backend
+        run: python -m pip install -r requirements.lock .
+      - name: Upgrade legacy schema fixtures to head
+        working-directory: backend
+        run: >-
+          python -m pytest -q
+          tests/test_authorization_migration.py
+          tests/test_investigation_migration.py
+          tests/test_url_path_migration.py
+          tests/test_evidence_graph_migration.py
+          tests/test_risk_revision_migration.py
+
+  browser-smoke:
+    name: Application startup and login smoke test
+    runs-on: ubuntu-latest
+    env:
+      COMPOSE_PROJECT_NAME: cyberlens-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      CYBERLENS_SMOKE_USERNAME: admin
+      CYBERLENS_SMOKE_PASSWORD: CyberLens-CI-Smoke-Login-2026!
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.lock
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Create isolated demo configuration
+        run: |
+          cat > .env <<'EOF'
+          APP_MODE=demo
+          APP_NAME=CyberLens
+          LOG_LEVEL=INFO
+          API_CORS_ORIGINS=
+          DEMO_POSTGRES_USER=cyberlens
+          DEMO_POSTGRES_DB=cyberlens
+          DEMO_POSTGRES_PASSWORD=CyberLens-CI-Postgres-2026!
+          DEMO_REDIS_PASSWORD=CyberLens-CI-Redis-2026!
+          DEMO_BOOTSTRAP_ADMIN_USERNAME=admin
+          DEMO_BOOTSTRAP_ADMIN_PASSWORD=CyberLens-CI-Smoke-Login-2026!
+          COOKIE_SECURE=true
+          EOF
+      - name: Check Live and Demo configuration isolation
+        shell: pwsh
+        run: ./scripts/test-compose-isolation.ps1
+      - name: Start a fresh application stack
+        run: docker compose --project-name "$COMPOSE_PROJECT_NAME" -f docker-compose.yml -f docker-compose.demo.yml up --build -d --wait --wait-timeout 180
+      - name: Install Playwright dependencies
+        working-directory: frontend
+        run: npm ci
+      - name: Install Chromium for Playwright
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Check startup and first login
+        working-directory: frontend
+        env:
+          CYBERLENS_BASE_URL: https://localhost:8443
+        run: npm run smoke:e2e -- e2e/smoke.spec.ts
+      - name: Check analyst workflow and Viewer permissions
+        working-directory: frontend
+        env:
+          CYBERLENS_BASE_URL: https://localhost:8443
+          CYBERLENS_API_ORIGIN: https://localhost:8443
+          CYBERLENS_E2E_ADMIN_PASSWORD: CyberLens-Smoke-Changed-Password-2026!
+        run: npm run workflow:e2e
+      - name: Verify isolated PostgreSQL backup and restore
+        shell: pwsh
+        run: |
+          $backup = Join-Path $env:RUNNER_TEMP "cyberlens-ci-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT.dump"
+          try {
+            ./scripts/backup-postgres.ps1 -OutputPath $backup
+            ./scripts/test-restore.ps1 -BackupPath $backup
+          } finally {
+            if (Test-Path -LiteralPath $backup) { Remove-Item -LiteralPath $backup }
+          }
+      - name: Show Compose logs on failure
+        if: failure()
+        run: docker compose --project-name "$COMPOSE_PROJECT_NAME" -f docker-compose.yml -f docker-compose.demo.yml logs
+      - name: Stop the isolated application stack
+        if: always()
+        run: docker compose --project-name "$COMPOSE_PROJECT_NAME" -f docker-compose.yml -f docker-compose.demo.yml down --remove-orphans
+
+  supply-chain:
+    name: Dependency, container, and SBOM checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Audit locked backend dependencies
+        run: |
+          python -m pip install --disable-pip-version-check pip-audit
+          pip-audit -r backend/requirements.lock
+      - name: Audit locked frontend dependencies
+        working-directory: frontend
+        run: npm ci && npm audit --audit-level=high --omit=dev
+      - name: Build images for scanning
+        run: |
+          docker build --tag cyberlens-api:ci ./backend
+          docker build --tag cyberlens-frontend:ci ./frontend
+          docker build --tag cyberlens-gateway:ci ./gateway
+      - name: Scan the source tree
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: HIGH,CRITICAL
+          exit-code: 1
+      - name: Scan API image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: cyberlens-api:ci
+          severity: HIGH,CRITICAL
+          exit-code: 1
+      - name: Scan frontend image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: cyberlens-frontend:ci
+          severity: HIGH,CRITICAL
+          exit-code: 1
+      - name: Scan gateway image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: cyberlens-gateway:ci
+          severity: HIGH,CRITICAL
+          exit-code: 1
+      - name: Generate repository SBOM
+        uses: anchore/sbom-action@v0.20.0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: cyberlens-sbom.cdx.json
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v6
+        with:
+          name: cyberlens-sbom
+          path: cyberlens-sbom.cdx.json

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "dataset_id": "cyberlens-demo-scenarios-v1",
+  "description": "Synthetic, offline-only workload matching the existing Demo CLI seed records and collector fixtures.",
+  "seed_command": "docker compose exec api python -m app.cli seed-demo",
+  "scenarios": [
+    {
+      "key": "routine_website",
+      "asset_kind": "domain",
+      "asset_identifier": "shop.example.test",
+      "expected_finding_categories": ["dns_email", "tls_web"],
+      "expected_unavailable_collectors": []
+    },
+    {
+      "key": "suspicious_website",
+      "asset_kind": "domain",
+      "asset_identifier": "signin-example.test",
+      "expected_finding_categories": ["tls_web", "reputation"],
+      "expected_unavailable_collectors": []
+    },
+    {
+      "key": "exposed_email",
+      "asset_kind": "email",
+      "asset_identifier": "student@example.test",
+      "expected_finding_categories": ["breach_exposure"],
+      "expected_unavailable_collectors": []
+    },
+    {
+      "key": "vulnerable_application",
+      "asset_kind": "application",
+      "asset_identifier": "Demo customer portal",
+      "expected_finding_categories": ["vulnerabilities"],
+      "expected_unavailable_collectors": []
+    },
+    {
+      "key": "provider_outage",
+      "asset_kind": "domain",
+      "asset_identifier": "outage.example.test",
+      "expected_finding_categories": ["tls_web"],
+      "expected_unavailable_collectors": ["reputation", "hibp", "nvd_kev"]
+    }
+  ]
+}

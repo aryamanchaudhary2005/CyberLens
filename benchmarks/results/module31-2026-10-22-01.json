@@ -1,0 +1,455 @@
+{
+  "api_latency_ms": {
+    "concurrency": 5,
+    "count": 100,
+    "endpoint": "GET /api/v1/assets?page=1&page_size=25&sort=identifier&order=asc",
+    "max": 2265.039,
+    "mean": 2145.392,
+    "min": 2079.153,
+    "p50": 2137.201,
+    "p95": 2223.156,
+    "p99": 2246.526,
+    "response_bytes_total": 884200,
+    "samples_include_new_local_http_connections": true
+  },
+  "configuration": {
+    "api_origin": "https://localhost:18443",
+    "api_requests": 100,
+    "concurrency": 5,
+    "investigation_timeout_seconds": 180.0,
+    "mode": "demo",
+    "poll_interval_seconds": 0.5,
+    "report_format": "json",
+    "request_timeout_seconds": 10
+  },
+  "dataset": {
+    "finding_count": 10,
+    "fixture_asset_count": 5,
+    "fixture_sha256": "73476061e759b8b509b915765dcf91a6316f2225aee6b5b068994288916a41de",
+    "id": "cyberlens-demo-scenarios-v1",
+    "investigation_count": 5,
+    "scenario_count": 5,
+    "schema_version": 1,
+    "workspace_asset_count": 13
+  },
+  "git_revision": null,
+  "hardware": {
+    "benchmark_client_python": "3.12.14",
+    "logical_cpu_count": 16,
+    "machine": "AMD64",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "system_memory_bytes": 16890322944
+  },
+  "investigation_scenarios": [
+    {
+      "asset_identifier": "student@example.test",
+      "finding_categories": [
+        "breach_exposure"
+      ],
+      "scenario": "exposed_email",
+      "status": "completed",
+      "unavailable_collectors": []
+    },
+    {
+      "asset_identifier": "outage.example.test",
+      "finding_categories": [
+        "tls_web"
+      ],
+      "scenario": "provider_outage",
+      "status": "partial",
+      "unavailable_collectors": [
+        "reputation"
+      ]
+    },
+    {
+      "asset_identifier": "shop.example.test",
+      "finding_categories": [
+        "dns_email",
+        "tls_web"
+      ],
+      "scenario": "routine_website",
+      "status": "completed",
+      "unavailable_collectors": []
+    },
+    {
+      "asset_identifier": "signin-example.test",
+      "finding_categories": [
+        "reputation",
+        "tls_web"
+      ],
+      "scenario": "suspicious_website",
+      "status": "completed",
+      "unavailable_collectors": []
+    },
+    {
+      "asset_identifier": "Demo customer portal",
+      "finding_categories": [
+        "vulnerabilities"
+      ],
+      "scenario": "vulnerable_application",
+      "status": "completed",
+      "unavailable_collectors": []
+    }
+  ],
+  "investigations": {
+    "attempt_count": 5,
+    "collector_status_counts": {
+      "not_applicable": 1,
+      "success": 10,
+      "unavailable": 1
+    },
+    "collector_unavailable_rate": 0.0833,
+    "duplicate_finding_signatures": 0,
+    "finding_occurrences": 10,
+    "finding_signature_duplicate_rate": 0.0,
+    "investigation_count": 5,
+    "investigation_duration_ms": {
+      "count": 5,
+      "max": 196.204,
+      "mean": 161.584,
+      "min": 96.383,
+      "p50": 173.851,
+      "p95": 196.204,
+      "p99": 196.204
+    },
+    "investigation_failure_rate": 0.0,
+    "investigation_retry_rate": 0.0,
+    "metric_definitions": {
+      "collector_unavailable_rate": "unavailable collector runs divided by all persisted collector runs",
+      "finding_signature_duplicate_rate": "repeated category/severity/title/source signatures within the same investigation divided by all finding occurrences; this is not a database uniqueness audit",
+      "investigation_duration_ms": "attempt.finished_at minus attempt.started_at; aggregated across attempts",
+      "investigation_failure_rate": "terminal failed investigations divided by benchmark investigations",
+      "investigation_retry_rate": "investigations with more than one persisted attempt divided by benchmark investigations",
+      "queue_wait_ms": "attempt.started_at minus attempt.created_at"
+    },
+    "queue_wait_ms": {
+      "count": 5,
+      "max": 2076.702,
+      "mean": 1259.659,
+      "min": 464.352,
+      "p50": 1221.521,
+      "p95": 2076.702,
+      "p99": 2076.702
+    },
+    "scenarios": [
+      {
+        "attempt_count": 1,
+        "collector_status_counts": {
+          "success": 1
+        },
+        "finding_count": 1,
+        "investigation_duration_ms": [
+          96.383
+        ],
+        "investigation_id": "a2041cad-02b8-4c20-9d98-b3ca58009193",
+        "queue_wait_ms": [
+          873.623
+        ],
+        "scenario": "exposed_email",
+        "status": "completed"
+      },
+      {
+        "attempt_count": 1,
+        "collector_status_counts": {
+          "success": 2,
+          "unavailable": 1
+        },
+        "finding_count": 1,
+        "investigation_duration_ms": [
+          196.204
+        ],
+        "investigation_id": "20b7c940-3246-4950-98fa-527f262d8863",
+        "queue_wait_ms": [
+          2076.702
+        ],
+        "scenario": "provider_outage",
+        "status": "partial"
+      },
+      {
+        "attempt_count": 1,
+        "collector_status_counts": {
+          "success": 3
+        },
+        "finding_count": 2,
+        "investigation_duration_ms": [
+          167.515
+        ],
+        "investigation_id": "1c4f81e7-c0e8-4377-98cb-a09d1f4ae752",
+        "queue_wait_ms": [
+          464.352
+        ],
+        "scenario": "routine_website",
+        "status": "completed"
+      },
+      {
+        "attempt_count": 1,
+        "collector_status_counts": {
+          "success": 3
+        },
+        "finding_count": 2,
+        "investigation_duration_ms": [
+          173.851
+        ],
+        "investigation_id": "736dd69d-e9ad-4e23-b6eb-872e3ecea60c",
+        "queue_wait_ms": [
+          1662.095
+        ],
+        "scenario": "suspicious_website",
+        "status": "completed"
+      },
+      {
+        "attempt_count": 1,
+        "collector_status_counts": {
+          "not_applicable": 1,
+          "success": 1
+        },
+        "finding_count": 4,
+        "investigation_duration_ms": [
+          173.969
+        ],
+        "investigation_id": "6aed9eb1-cfe5-448a-a6b5-de905fee5e1a",
+        "queue_wait_ms": [
+          1221.521
+        ],
+        "scenario": "vulnerable_application",
+        "status": "completed"
+      }
+    ]
+  },
+  "report_generation_ms": {
+    "count": 5,
+    "format": "json",
+    "max": 2144.029,
+    "mean": 2117.572,
+    "min": 2093.463,
+    "p50": 2123.516,
+    "p95": 2144.029,
+    "p99": 2144.029,
+    "report_ids": [
+      "0cd88102-a423-429a-8e1c-326ab7b63355",
+      "91b3b060-5918-435c-ad01-8328f9aeca20",
+      "e2608d3c-0ef4-4a7b-8f85-15d2ba841773",
+      "ae20a053-69e8-4392-9291-338ee400258f",
+      "36d8ed65-9f3a-43ad-ab8a-0e98dbb95929"
+    ]
+  },
+  "resource_use": {
+    "benchmark_client_after": {
+      "measurement": "benchmark client process",
+      "peak_rss_bytes": null,
+      "process_cpu_seconds": 2.219
+    },
+    "benchmark_client_before": {
+      "measurement": "benchmark client process",
+      "peak_rss_bytes": null,
+      "process_cpu_seconds": 0.391
+    },
+    "benchmark_client_cpu_seconds": 1.797,
+    "docker_stats_after": {
+      "available": true,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "44.66%",
+          "Container": "bb60100f352246954154c6f454d50e69c27079efee5bffaf3bdb95d13fcb3cc3",
+          "ID": "bb60100f3522",
+          "MemPerc": "1.22%",
+          "MemUsage": "94.8MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-api-1",
+          "NetIO": "5.07MB / 6.33MB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "3f861277f1745aaec9c753723056d55828b76fe7b575de0241d3eeceaf5ecae0",
+          "ID": "3f861277f174",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.71MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-dispatcher-1",
+          "NetIO": "7.25MB / 11.9MB",
+          "PIDs": "1"
+        },
+        {
+          "BlockIO": "0B / 4.1kB",
+          "CPUPerc": "0.00%",
+          "Container": "ad0be685ab86305901e36ad562c886b4edb1e13647b91205c68f46c16cb75e31",
+          "ID": "ad0be685ab86",
+          "MemPerc": "0.17%",
+          "MemUsage": "12.95MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-frontend-1",
+          "NetIO": "495kB / 51.4MB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 61.4kB",
+          "CPUPerc": "0.00%",
+          "Container": "6c29e3f14cb63a391496acdaed3548c7dc6b7d8bcaa7d502af9fc1a575915a36",
+          "ID": "6c29e3f14cb6",
+          "MemPerc": "0.24%",
+          "MemUsage": "18.95MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-gateway-1",
+          "NetIO": "57.5MB / 58.8MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 86.7MB",
+          "CPUPerc": "0.02%",
+          "Container": "699f38680bb87fd035fdf2a228c645609016932a5421ed47527eff6a906de6be",
+          "ID": "699f38680bb8",
+          "MemPerc": "0.75%",
+          "MemUsage": "58.65MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-postgres-1",
+          "NetIO": "22.1MB / 22.6MB",
+          "PIDs": "12"
+        },
+        {
+          "BlockIO": "877kB / 1.06MB",
+          "CPUPerc": "5.49%",
+          "Container": "63f1fc870f21351aebd65fb871ced2f334c91f68b4a3c4b1ca43e8cd0b3334ab",
+          "ID": "63f1fc870f21",
+          "MemPerc": "0.06%",
+          "MemUsage": "4.996MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-redis-1",
+          "NetIO": "405kB / 188kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "a0217ccb1f124437b848a27750a4063f9c5ec7e07078878089a0c96360e0ff6b",
+          "ID": "a0217ccb1f12",
+          "MemPerc": "0.77%",
+          "MemUsage": "59.99MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-worker-1",
+          "NetIO": "1.07MB / 1.59MB",
+          "PIDs": "3"
+        }
+      ]
+    },
+    "docker_stats_before": {
+      "available": true,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.21%",
+          "Container": "bb60100f352246954154c6f454d50e69c27079efee5bffaf3bdb95d13fcb3cc3",
+          "ID": "bb60100f3522",
+          "MemPerc": "1.19%",
+          "MemUsage": "92.86MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-api-1",
+          "NetIO": "2.57MB / 3.22MB",
+          "PIDs": "3"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.27%",
+          "Container": "3f861277f1745aaec9c753723056d55828b76fe7b575de0241d3eeceaf5ecae0",
+          "ID": "3f861277f174",
+          "MemPerc": "0.79%",
+          "MemUsage": "61.95MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-dispatcher-1",
+          "NetIO": "6.91MB / 11.3MB",
+          "PIDs": "1"
+        },
+        {
+          "BlockIO": "0B / 4.1kB",
+          "CPUPerc": "0.01%",
+          "Container": "ad0be685ab86305901e36ad562c886b4edb1e13647b91205c68f46c16cb75e31",
+          "ID": "ad0be685ab86",
+          "MemPerc": "0.17%",
+          "MemUsage": "13.31MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-frontend-1",
+          "NetIO": "493kB / 51.4MB",
+          "PIDs": "17"
+        },
+        {
+          "BlockIO": "0B / 61.4kB",
+          "CPUPerc": "5.94%",
+          "Container": "6c29e3f14cb63a391496acdaed3548c7dc6b7d8bcaa7d502af9fc1a575915a36",
+          "ID": "6c29e3f14cb6",
+          "MemPerc": "0.24%",
+          "MemUsage": "19MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-gateway-1",
+          "NetIO": "56.1MB / 57.4MB",
+          "PIDs": "18"
+        },
+        {
+          "BlockIO": "0B / 67.9MB",
+          "CPUPerc": "0.87%",
+          "Container": "699f38680bb87fd035fdf2a228c645609016932a5421ed47527eff6a906de6be",
+          "ID": "699f38680bb8",
+          "MemPerc": "0.74%",
+          "MemUsage": "57.59MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-postgres-1",
+          "NetIO": "19.1MB / 19.6MB",
+          "PIDs": "12"
+        },
+        {
+          "BlockIO": "823kB / 979kB",
+          "CPUPerc": "0.64%",
+          "Container": "63f1fc870f21351aebd65fb871ced2f334c91f68b4a3c4b1ca43e8cd0b3334ab",
+          "ID": "63f1fc870f21",
+          "MemPerc": "0.07%",
+          "MemUsage": "5.094MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-redis-1",
+          "NetIO": "345kB / 164kB",
+          "PIDs": "6"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.01%",
+          "Container": "a0217ccb1f124437b848a27750a4063f9c5ec7e07078878089a0c96360e0ff6b",
+          "ID": "a0217ccb1f12",
+          "MemPerc": "0.77%",
+          "MemUsage": "60.45MiB / 7.619GiB",
+          "Name": "cyberlens-module31-final-20261022-worker-1",
+          "NetIO": "804kB / 1.19MB",
+          "PIDs": "3"
+        }
+      ]
+    },
+    "wall_seconds": 67.533
+  },
+  "result_kind": "measured",
+  "runtime_metrics_snapshot": {
+    "generated_at": "2026-10-21T19:37:50.538390Z",
+    "job_duration_ms": 173.23,
+    "provider_status": {
+      "Synthetic DNS and RDAP fixture": {
+        "success": 10
+      },
+      "Synthetic HIBP fixture": {
+        "success": 2
+      },
+      "Synthetic NVD and CISA KEV fixture": {
+        "success": 4
+      },
+      "Synthetic OSV package fixture": {
+        "not_applicable": 2,
+        "success": 2
+      },
+      "Synthetic VirusTotal fixture": {
+        "success": 8,
+        "unavailable": 2
+      },
+      "Synthetic XposedOrNot fixture": {
+        "success": 2
+      },
+      "Synthetic website and TLS fixture": {
+        "success": 10
+      }
+    },
+    "queue_depth": 0,
+    "requests": {
+      "count": 286,
+      "duration_ms_total": 20485.388,
+      "errors": 0
+    },
+    "worker_heartbeat_ttl_seconds": 45,
+    "worker_ready": true
+  },
+  "targets_included": false,
+  "test_date_utc": "2026-10-21T19:36:40.223066+00:00"
+}

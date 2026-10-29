@@ -1,0 +1,8 @@
+{
+  "fixture_version": "spamhaus-drop-demo-v1",
+  "attribution": "Synthetic Demo fixture; no Spamhaus data is downloaded.",
+  "networks": [
+    {"address_family": 4, "network": "203.0.113.0/24", "sbl_id": "SBL-DEMO-2401"},
+    {"address_family": 6, "network": "2001:db8:2401::/48", "sbl_id": "SBL-DEMO-2402"}
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "cyberlens-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "api:types": "openapi-typescript ../backend/openapi.json -o src/generated/api.d.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.e2e.json",
+    "smoke:e2e": "playwright test",
+    "workflow:e2e": "playwright test e2e/full-workflow.spec.ts e2e/accessibility.spec.ts e2e/analyst-workflow.spec.ts e2e/attack-matrix.spec.ts e2e/attack-catalog.spec.ts e2e/integrity.spec.ts e2e/monitoring.spec.ts e2e/posture-scorecard.spec.ts e2e/osv-package.spec.ts e2e/password-screening.spec.ts e2e/xposedornot.spec.ts e2e/spamhaus-drop.spec.ts e2e/openphish.spec.ts e2e/ui-design-system.spec.ts e2e/brand-identity.spec.ts e2e/workspace-resilience.spec.ts"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.13.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "~5.6.3",
+    "vite": "^7.3.7"
+  }
+}

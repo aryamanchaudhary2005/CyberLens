@@ -1,0 +1,1 @@
+{"status": 200, "headers": {"strict-transport-security": "max-age=31536000", "content-security-policy": "default-src 'self'", "x-content-type-options": "nosniff"}, "redirects": [], "tls_version": "TLSv1.3", "negotiated_protocol": "http/1.1"}

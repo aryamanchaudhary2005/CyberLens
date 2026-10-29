@@ -1,0 +1,8 @@
+# Optional loopback port override for disposable verification projects.
+# Keep the normal gateway and application ports untouched.
+services:
+  api:
+    ports: !override ["127.0.0.1:${CYBERLENS_VERIFY_API_PORT:-18000}:8000"]
+
+  gateway:
+    ports: !override ["127.0.0.1:${CYBERLENS_VERIFY_PORT:-18443}:8443"]

@@ -1,0 +1,45 @@
+# Explicit offline fixture stack. Always use a dedicated Compose project name
+# so it cannot attach to the normal Live PostgreSQL/Redis volumes. Dedicated
+# DEMO_* variables also keep Live .env credentials out of this offline stack.
+services:
+  api:
+    env_file: !reset []
+    environment:
+      APP_MODE: demo
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      BOOTSTRAP_ADMIN_USERNAME: ${DEMO_BOOTSTRAP_ADMIN_USERNAME:-admin}
+      BOOTSTRAP_ADMIN_PASSWORD: ${DEMO_BOOTSTRAP_ADMIN_PASSWORD:-}
+      DATABASE_URL: postgresql+psycopg://${DEMO_POSTGRES_USER:-cyberlens}:${DEMO_POSTGRES_PASSWORD:-CyberLensDemoDb2026}@postgres:5432/${DEMO_POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}@redis:6379/0
+      REDIS_PASSWORD: ${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}
+
+  worker:
+    env_file: !reset []
+    environment:
+      APP_MODE: demo
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      DATABASE_URL: postgresql+psycopg://${DEMO_POSTGRES_USER:-cyberlens}:${DEMO_POSTGRES_PASSWORD:-CyberLensDemoDb2026}@postgres:5432/${DEMO_POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}@redis:6379/0
+      REDIS_PASSWORD: ${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}
+
+  dispatcher:
+    env_file: !reset []
+    environment:
+      APP_MODE: demo
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      DATABASE_URL: postgresql+psycopg://${DEMO_POSTGRES_USER:-cyberlens}:${DEMO_POSTGRES_PASSWORD:-CyberLensDemoDb2026}@postgres:5432/${DEMO_POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}@redis:6379/0
+      REDIS_PASSWORD: ${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}
+
+  postgres:
+    environment:
+      POSTGRES_DB: ${DEMO_POSTGRES_DB:-cyberlens}
+      POSTGRES_USER: ${DEMO_POSTGRES_USER:-cyberlens}
+      POSTGRES_PASSWORD: ${DEMO_POSTGRES_PASSWORD:-CyberLensDemoDb2026}
+
+  redis:
+    environment:
+      REDIS_PASSWORD: ${DEMO_REDIS_PASSWORD:-CyberLensDemoRedis2026}

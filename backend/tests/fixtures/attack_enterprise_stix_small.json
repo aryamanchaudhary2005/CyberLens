@@ -1,0 +1,76 @@
+{
+  "type": "bundle",
+  "id": "bundle--00000000-0000-4000-8000-000000000001",
+  "spec_version": "2.1",
+  "objects": [
+    {
+      "type": "x-mitre-tactic",
+      "id": "x-mitre-tactic--00000000-0000-4000-8000-000000000002",
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-01-01T00:00:00.000Z",
+      "name": "Synthetic Initial Access",
+      "description": "Offline test fixture tactic.",
+      "x_mitre_shortname": "synthetic-initial-access",
+      "x_mitre_domains": ["enterprise-attack"]
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--00000000-0000-4000-8000-000000000003",
+      "created": "2026-01-01T00:00:00.000Z",
+      "modified": "2026-02-01T00:00:00.000Z",
+      "name": "Synthetic Parent Technique",
+      "description": "Offline test fixture parent technique.",
+      "external_references": [{"source_name": "mitre-attack", "external_id": "T9990", "url": "https://attack.mitre.org/techniques/T9990/"}],
+      "kill_chain_phases": [{"kill_chain_name": "mitre-attack", "phase_name": "synthetic-initial-access"}],
+      "x_mitre_domains": ["enterprise-attack"],
+      "x_mitre_is_subtechnique": false
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--00000000-0000-4000-8000-000000000004",
+      "created": "2026-01-02T00:00:00.000Z",
+      "modified": "2026-02-02T00:00:00.000Z",
+      "name": "Synthetic Child Technique",
+      "description": "Offline test fixture sub-technique.",
+      "external_references": [{"source_name": "mitre-attack", "external_id": "T9990.001", "url": "https://attack.mitre.org/techniques/T9990/001/"}],
+      "kill_chain_phases": [{"kill_chain_name": "mitre-attack", "phase_name": "synthetic-initial-access"}],
+      "x_mitre_domains": ["enterprise-attack"],
+      "x_mitre_is_subtechnique": true
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--00000000-0000-4000-8000-000000000005",
+      "created": "2026-01-03T00:00:00.000Z",
+      "modified": "2026-02-03T00:00:00.000Z",
+      "name": "Synthetic Revoked Technique",
+      "description": "Offline test fixture revoked technique.",
+      "revoked": true,
+      "external_references": [{"source_name": "mitre-attack", "external_id": "T9991"}],
+      "kill_chain_phases": [{"kill_chain_name": "mitre-attack", "phase_name": "synthetic-initial-access"}],
+      "x_mitre_domains": ["enterprise-attack"],
+      "x_mitre_is_subtechnique": false
+    },
+    {
+      "type": "attack-pattern",
+      "id": "attack-pattern--00000000-0000-4000-8000-000000000006",
+      "created": "2026-01-04T00:00:00.000Z",
+      "modified": "2026-02-04T00:00:00.000Z",
+      "name": "Synthetic Deprecated Technique",
+      "description": "Offline test fixture deprecated technique.",
+      "x_mitre_deprecated": true,
+      "external_references": [{"source_name": "mitre-attack", "external_id": "T9992"}],
+      "kill_chain_phases": [{"kill_chain_name": "mitre-attack", "phase_name": "synthetic-initial-access"}],
+      "x_mitre_domains": ["enterprise-attack"],
+      "x_mitre_is_subtechnique": false
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--00000000-0000-4000-8000-000000000007",
+      "created": "2026-01-02T00:00:00.000Z",
+      "modified": "2026-02-02T00:00:00.000Z",
+      "relationship_type": "subtechnique-of",
+      "source_ref": "attack-pattern--00000000-0000-4000-8000-000000000004",
+      "target_ref": "attack-pattern--00000000-0000-4000-8000-000000000003"
+    }
+  ]
+}

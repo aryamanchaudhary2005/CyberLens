@@ -1,0 +1,9 @@
+{
+  "fixture_version": "cins-army-demo-v1",
+  "attribution": "Synthetic Demo fixture using reserved documentation IP ranges; no CINS Army data is downloaded.",
+  "addresses": [
+    "198.51.100.23",
+    "203.0.113.42",
+    "203.0.113.43"
+  ]
+}

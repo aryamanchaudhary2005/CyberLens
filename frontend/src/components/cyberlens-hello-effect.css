@@ -1,0 +1,195 @@
+.cyberlens-hello-effect {
+  display: block;
+  overflow: visible;
+  width: 100%;
+  height: auto;
+  color: #8b7cff;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cyberlens-hello-effect__base,
+.cyberlens-hello-effect__draw {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 7px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Keep a small highlight moving after the one-time writing entrance. The
+   complete word stays present; this is decorative ink, never operational text. */
+.cyberlens-hello-effect__glint {
+  fill: none;
+  stroke: #c7c0ff;
+  stroke-width: 7px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: .12 1.12;
+  stroke-dashoffset: 1.24;
+  opacity: 0;
+  animation: cyberlens-signature-glint 7s linear calc(var(--cyberlens-draw-duration, 3.1s) + var(--glint-delay, 0s)) infinite;
+}
+
+@keyframes cyberlens-signature-glint {
+  0% { stroke-dashoffset: 1.24; opacity: 0; }
+  15% { opacity: .65; }
+  70% { opacity: .65; }
+  90%, 100% { stroke-dashoffset: -.12; opacity: 0; }
+}
+
+.cyberlens-hello-effect__base {
+  opacity: .16;
+}
+
+.cyberlens-hello-effect__draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: cyberlens-signature-draw calc(var(--cyberlens-draw-duration, 3.1s) * .42) cubic-bezier(.35, .12, .3, 1) var(--glyph-delay, 0s) both;
+}
+
+.cyberlens-hello-effect__flourish {
+  fill: none;
+  stroke: #6d5df6;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: .65;
+  animation: cyberlens-signature-flourish calc(var(--cyberlens-draw-duration, 3.1s) * .25) ease-out calc(var(--cyberlens-draw-duration, 3.1s) * .7) both;
+}
+
+.cyberlens-hello-effect__node {
+  fill: #afa6ff;
+  opacity: .72;
+  animation: cyberlens-signature-node 320ms ease-out calc(var(--cyberlens-draw-duration, 3.1s) * .9) both;
+}
+
+@keyframes cyberlens-signature-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cyberlens-signature-flourish {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes cyberlens-signature-node {
+  from { opacity: 0; }
+  to { opacity: .72; }
+}
+
+.login-cyberlens-hello {
+  position: absolute;
+  z-index: -1;
+  top: clamp(48px, 5vh, 64px);
+  right: clamp(92px, 8vw, 124px);
+  width: clamp(180px, 31vw, 430px);
+  opacity: .74;
+  transform: rotate(-1.25deg);
+}
+
+.app-shell .overview-heading {
+  position: relative;
+}
+
+.app-shell .overview-heading > .dashboard-cyberlens-hello {
+  position: absolute;
+  z-index: 0;
+  top: -22px;
+  right: clamp(176px, 18vw, 270px);
+  width: clamp(210px, 25vw, 340px);
+  opacity: .68;
+}
+
+.app-shell .overview-heading > div,
+.app-shell .overview-heading > .primary-button {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .app-shell .overview-heading > .dashboard-cyberlens-hello {
+    top: -14px;
+    right: 0;
+    width: 210px;
+    opacity: .3;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-shell .overview-heading > .dashboard-cyberlens-hello { display: none; }
+}
+
+.cyberlens-hello-effect[data-playback="paused"] .cyberlens-hello-effect__ink > * {
+  animation-play-state: paused;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__draw,
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__flourish,
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__node {
+  animation: none;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__base {
+  opacity: .24;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__draw {
+  stroke-dashoffset: 0;
+  fill-opacity: .3;
+  opacity: .65;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__flourish {
+  stroke-dashoffset: 0;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__node {
+  opacity: .72;
+}
+
+.cyberlens-hello-effect.is-static .cyberlens-hello-effect__glint {
+  animation: none;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyberlens-hello-effect__draw,
+  .cyberlens-hello-effect__flourish,
+  .cyberlens-hello-effect__node {
+    animation: none;
+  }
+
+  .cyberlens-hello-effect__base { opacity: .24; }
+  .cyberlens-hello-effect__draw { stroke-dashoffset: 0; fill-opacity: .3; opacity: .65; }
+  .cyberlens-hello-effect__flourish { stroke-dashoffset: 0; }
+  .cyberlens-hello-effect__node { opacity: .72; }
+  .cyberlens-hello-effect__glint { animation: none; opacity: 0; }
+}
+
+:root[data-motion="reduced"] .cyberlens-hello-effect__draw,
+:root[data-motion="reduced"] .cyberlens-hello-effect__flourish,
+:root[data-motion="reduced"] .cyberlens-hello-effect__node {
+  animation: none;
+}
+
+:root[data-motion="reduced"] .cyberlens-hello-effect__base { opacity: .24; }
+:root[data-motion="reduced"] .cyberlens-hello-effect__draw { stroke-dashoffset: 0; fill-opacity: .3; opacity: .65; }
+:root[data-motion="reduced"] .cyberlens-hello-effect__flourish { stroke-dashoffset: 0; }
+:root[data-motion="reduced"] .cyberlens-hello-effect__node { opacity: .72; }
+:root[data-motion="reduced"] .cyberlens-hello-effect__glint { animation: none; opacity: 0; }
+
+/* Explicit opt-in affects this decoration only. Keep the protected brand,
+   controls, charts, and page transitions under the original motion policy. */
+:root[data-decorative-motion="full"] .cyberlens-hello-effect:not(.is-static) .cyberlens-hello-effect__draw {
+  animation: cyberlens-signature-draw calc(var(--cyberlens-draw-duration, 3.1s) * .42) cubic-bezier(.35, .12, .3, 1) var(--glyph-delay, 0s) both !important;
+  opacity: 1;
+}
+:root[data-decorative-motion="full"] .cyberlens-hello-effect:not(.is-static) .cyberlens-hello-effect__glint {
+  animation: cyberlens-signature-glint 7s linear calc(var(--cyberlens-draw-duration, 3.1s) + var(--glint-delay, 0s)) infinite !important;
+}
+:root[data-decorative-motion="full"] .cyberlens-hello-effect[data-playback="paused"] .cyberlens-hello-effect__ink > * {
+  animation-play-state: paused !important;
+}

@@ -1,0 +1,32 @@
+{
+  "catalog_version": "cyberlens-attack-enterprise-subset-1.0",
+  "framework": "MITRE ATT&CK Enterprise",
+  "snapshot_date": "2026-10-17",
+  "source_url": "https://attack.mitre.org/",
+  "techniques": [
+    {
+      "id": "T1190",
+      "name": "Exploit Public-Facing Application",
+      "tactics": ["Initial Access"],
+      "url": "https://attack.mitre.org/techniques/T1190/"
+    },
+    {
+      "id": "T1589.002",
+      "name": "Gather Victim Identity Information: Email Addresses",
+      "tactics": ["Reconnaissance"],
+      "url": "https://attack.mitre.org/techniques/T1589/002/"
+    },
+    {
+      "id": "T1595.002",
+      "name": "Active Scanning: Vulnerability Scanning",
+      "tactics": ["Reconnaissance"],
+      "url": "https://attack.mitre.org/techniques/T1595/002/"
+    },
+    {
+      "id": "T1078",
+      "name": "Valid Accounts",
+      "tactics": ["Stealth", "Persistence", "Privilege Escalation", "Initial Access"],
+      "url": "https://attack.mitre.org/techniques/T1078/"
+    }
+  ]
+}

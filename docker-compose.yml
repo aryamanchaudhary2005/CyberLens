@@ -1,0 +1,143 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: /api/v1
+    expose:
+      - "8080"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "127.0.0.1:8443:8443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      api:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./backend
+    env_file: .env
+    environment:
+      APP_MODE: live
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      BOOTSTRAP_ADMIN_USERNAME: ${BOOTSTRAP_ADMIN_USERNAME:-admin}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-cyberlens}:${POSTGRES_PASSWORD:-}@postgres:5432/${POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    command: ["sh", "-c", "alembic upgrade head && python -m app.bootstrap && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+    expose:
+      - "8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health/live', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./backend
+    env_file: .env
+    environment:
+      APP_MODE: live
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-cyberlens}:${POSTGRES_PASSWORD:-}@postgres:5432/${POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    command: ["python", "-m", "app.worker"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "from redis import Redis; from app.config import get_settings; from app.orchestration import WORKER_HEARTBEAT_KEY; client=Redis.from_url(get_settings().redis_url); raise SystemExit(0 if client.exists(WORKER_HEARTBEAT_KEY) and client.ttl(WORKER_HEARTBEAT_KEY) > 0 else 1)"]
+      interval: 10s
+      timeout: 4s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  dispatcher:
+    build:
+      context: ./backend
+    env_file: .env
+    environment:
+      APP_MODE: live
+      COOKIE_SECURE: "true"
+      API_CORS_ORIGINS: ""
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-cyberlens}:${POSTGRES_PASSWORD:-}@postgres:5432/${POSTGRES_DB:-cyberlens}
+      REDIS_URL: redis://:${REDIS_PASSWORD:-}@redis:6379/0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    command: ["python", "-m", "app.dispatcher"]
+    depends_on:
+      api:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cyberlens}
+      POSTGRES_USER: ${POSTGRES_USER:-cyberlens}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+    command: ["sh", "-c", "if [ -n \"$$REDIS_PASSWORD\" ]; then exec redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\"; else exec redis-server --appendonly yes; fi"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "if [ -n \"$$REDIS_PASSWORD\" ]; then redis-cli -a \"$$REDIS_PASSWORD\" ping; else redis-cli ping; fi"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  caddy_data:
+  caddy_config:

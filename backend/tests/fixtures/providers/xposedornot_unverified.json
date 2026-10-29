@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "breaches": [["UnconfirmedForum"]],
+  "exposedBreaches": [
+    {
+      "breachID": "UnconfirmedForum-2025",
+      "breachedDate": "2025-04-01",
+      "exposedData": ["Email addresses"],
+      "verified": false
+    }
+  ]
+}

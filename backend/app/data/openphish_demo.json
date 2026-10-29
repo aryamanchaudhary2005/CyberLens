@@ -1,0 +1,10 @@
+{
+  "fixture_version": "cyberlens-openphish-demo-v1",
+  "attribution": "Synthetic OpenPhish-shaped Demo fixture; no provider data is included.",
+  "listed_urls": [
+    {
+      "canonical_url": "https://phishing.example.test/login?campaign=synthetic",
+      "hostname": "phishing.example.test"
+    }
+  ]
+}

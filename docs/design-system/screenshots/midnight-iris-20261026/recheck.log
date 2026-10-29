@@ -1,0 +1,12 @@
+
+Running 4 tests using 1 worker
+
+(node:36520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/4] e2e\evidence-graph.spec.ts:113:1 › graph controls, evidence detail, filters, keyboard and list stay coordinated
+[2/4] e2e\monitoring.spec.ts:27:1 › analyst can schedule, pause, resume, cancel, and compare monitoring runs
+[3/4] e2e\posture-scorecard.spec.ts:122:1 › charts and exact-value tables reveal once without changing saved values
+[4/4] e2e\ui-design-system.spec.ts:320:1 › empty analyst screens retain hierarchy and fit laptop width
+  4 passed (44.0s)

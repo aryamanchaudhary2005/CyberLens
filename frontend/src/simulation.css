@@ -1,0 +1,116 @@
+.simulation-box {
+  margin-top: 18px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.simulation-box>p {
+  margin: 7px 0;
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.simulation-actions,.simulation-changes {
+  display: grid;
+  gap: 7px;
+  padding: 0;
+  margin: 10px 0;
+  list-style: none;
+}
+
+.simulation-actions li,.simulation-changes li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+}
+
+.simulation-actions li>span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.simulation-actions strong,.simulation-changes strong {
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 550;
+}
+
+.simulation-actions small,.simulation-evidence span {
+  color: var(--text-muted);
+  font-size: 9px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.simulation-result {
+  margin-top: 12px;
+  padding: 12px;
+  border-left: 2px solid var(--accent);
+  background: var(--surface-raised);
+}
+
+.simulation-result h4 {
+  margin: 9px 0 6px;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.simulation-result>p {
+  margin: 7px 0;
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.simulation-evidence {
+  display: grid;
+  gap: 4px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.simulation-evidence strong {
+  color: var(--accent-strong);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.simulation-changes li {
+  padding: 6px 8px;
+}
+
+.simulation-changes li>span {
+  color: var(--text-secondary);
+  font-size: 10px;
+  text-transform: capitalize;
+}
+
+.simulation-box button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (max-width:560px) {
+  .simulation-actions li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .simulation-actions li button {
+    align-self: flex-start;
+  }
+  .simulation-changes li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

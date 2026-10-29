@@ -1,0 +1,14 @@
+
+Running 3 tests using 1 worker
+
+
+(node:10004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/3] e2e\brand-identity.spec.ts:336:1 › dashboard renderer advances real time, releases frame work, and survives simulated context loss
+e2e\brand-identity.spec.ts:336:1 › dashboard renderer advances real time, releases frame work, and survives simulated context loss
+CYBERLENS_ORB_SAMPLE {"renderer":"webgl","observationSeconds":0.6666,"drawCalls":14,"canvas":{"width":947,"height":547}}
+
+[2/3] e2e\brand-identity.spec.ts:440:1 › reference Bento scene moves pixels, shares pause, and fits narrow layouts
+[3/3] e2e\brand-identity.spec.ts:472:1 › reference Bento scene stays static for reduced motion and survives renderer failure
+  3 passed (24.8s)

@@ -1,0 +1,105 @@
+.app-shell .overview-page {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+}
+
+.app-shell .overview-content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.app-shell .overview-gradient-orb {
+  position: absolute;
+  z-index: 0;
+  top: -32px;
+  right: calc(-1 * clamp(20px, 3.5vw, 48px));
+  left: calc(-1 * clamp(20px, 3.5vw, 48px));
+  height: min(720px, 76vh);
+  min-height: 400px;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  user-select: none;
+  opacity: .62;
+  background:
+    radial-gradient(ellipse 37% 52% at 72% 31%, rgb(109 93 246 / 17%), transparent 100%),
+    radial-gradient(ellipse 31% 42% at 35% 3%, rgb(73 105 239 / 9%), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 100%);
+}
+
+.app-shell .overview-gradient-orb::before {
+  content: "";
+  position: absolute;
+  top: -24%;
+  right: -3%;
+  width: min(78%, 900px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--page) 29%, transparent 52%),
+    conic-gradient(from 30deg, transparent 12%, rgb(109 93 246 / 46%), rgb(175 166 255 / 18%) 42%, transparent 58%, rgb(73 105 239 / 42%) 76%, transparent);
+  filter: blur(22px);
+  opacity: .72;
+}
+
+.app-shell .overview-gradient-orb[data-renderer="webgl"]::before { opacity: 0; }
+.app-shell .overview-gradient-orb[data-motion="full"]::before { animation: overview-orb-drift 28s linear infinite; }
+.app-shell .overview-gradient-orb[data-playback="paused"]::before { animation-play-state: paused; }
+.app-shell .overview-gradient-orb[data-renderer="fallback"] canvas { visibility: hidden; }
+.app-shell .overview-gradient-orb[data-motion="reduced"] canvas { display: none; }
+
+@keyframes overview-orb-drift {
+  0% { transform: rotate(0deg) scale(.98); }
+  50% { transform: rotate(180deg) scale(1.06); }
+  100% { transform: rotate(360deg) scale(.98); }
+}
+
+.app-shell .overview-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-bottom: 16px;
+}
+
+.app-shell .overview-meta-row .overview-scope { margin: 0; }
+.app-shell .overview-motion-controls { display: flex; flex-wrap: wrap; gap: 4px; }
+.app-shell .overview-motion-controls .text-button { min-height: 36px; font-size: 12px; }
+.app-shell .overview-motion-controls .text-button:disabled { color: var(--text-muted); }
+
+.app-shell .overview-gradient-orb__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .app-shell .overview-gradient-orb {
+    right: -13px;
+    left: -13px;
+    height: min(570px, 70vh);
+    min-height: 320px;
+    opacity: .48;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .overview-gradient-orb__canvas {
+    display: none;
+  }
+  .app-shell .overview-gradient-orb::before { animation: none !important; }
+}
+
+:root[data-motion="reduced"] .app-shell .overview-gradient-orb__canvas {
+  display: none;
+}
+
+:root[data-motion="reduced"] .app-shell .overview-gradient-orb::before { animation: none !important; }
+
+:root[data-decorative-motion="full"] .app-shell .overview-gradient-orb[data-motion="full"] canvas { display: block; }
+:root[data-decorative-motion="full"] .app-shell .overview-gradient-orb[data-motion="full"]::before { animation: overview-orb-drift 28s linear infinite !important; }
+:root[data-decorative-motion="full"] .app-shell .overview-gradient-orb[data-playback="paused"]::before { animation-play-state: paused !important; }

@@ -1,0 +1,99 @@
+services:
+  frontend:
+    image: cyberlens-debug-20261020-frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:18000/api/v1
+    ports:
+      - "127.0.0.1:15173:8080"
+    networks: [default, browser]
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8080/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  api:
+    image: cyberlens-debug-20261020-backend
+    build:
+      context: ./backend
+    environment: &app-env
+      APP_MODE: demo
+      APP_NAME: CyberLens
+      LOG_LEVEL: INFO
+      API_CORS_ORIGINS: http://localhost:15173,http://127.0.0.1:15173
+      DATABASE_URL: postgresql+psycopg://debug:debug-disposable@postgres:5432/cyberlens_debug
+      REDIS_URL: redis://redis:6379/0
+      BOOTSTRAP_ADMIN_USERNAME: admin
+      BOOTSTRAP_ADMIN_PASSWORD: CyberLens-Debug-Disposable-2026!
+      COOKIE_SECURE: "false"
+      HIBP_API_KEY: ""
+      VIRUSTOTAL_API_KEY: ""
+      NVD_API_KEY: ""
+      XPOSEDORNOT_ENABLED: "false"
+      OPENPHISH_ENABLED: "false"
+    command: ["sh", "-c", "alembic upgrade head && python -m app.bootstrap && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+    ports:
+      - "127.0.0.1:18000:8000"
+    networks: [default, browser]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health/live', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+  worker:
+    image: cyberlens-debug-20261020-backend
+    environment: *app-env
+    command: ["python", "-m", "app.worker"]
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "from redis import Redis; from app.config import get_settings; from app.orchestration import WORKER_HEARTBEAT_KEY; client=Redis.from_url(get_settings().redis_url); raise SystemExit(0 if client.exists(WORKER_HEARTBEAT_KEY) and client.ttl(WORKER_HEARTBEAT_KEY) > 0 else 1)"]
+      interval: 5s
+      timeout: 4s
+      retries: 12
+      start_period: 10s
+  dispatcher:
+    image: cyberlens-debug-20261020-backend
+    environment: *app-env
+    command: ["python", "-m", "app.dispatcher"]
+    depends_on:
+      api:
+        condition: service_healthy
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cyberlens_debug
+      POSTGRES_USER: debug
+      POSTGRES_PASSWORD: debug-disposable
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U debug -d cyberlens_debug"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    tmpfs:
+      - /data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+networks:
+  default:
+    internal: true
+  browser:

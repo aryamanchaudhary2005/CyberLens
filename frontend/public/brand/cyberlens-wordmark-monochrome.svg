@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" role="img" aria-labelledby="title">
+  <title id="title">CyberLens monochrome wordmark</title>
+  <g transform="translate(4 4)" fill="none" stroke="#111827" stroke-linecap="round" stroke-linejoin="round"><path d="M47 12.5C42.8 8.4 36.9 6 30 6 16.7 6 6 17.6 6 32s10.7 26 24 26c6.9 0 12.8-2.4 17-6.5" stroke-width="7.5"/><path d="M40 32h8.5" stroke-width="3.4"/><circle cx="53" cy="32" r="4.2" fill="#111827" stroke="none"/></g>
+  <text x="78" y="43" fill="#111827" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="-1.1">CyberLens</text>
+</svg>

@@ -1,0 +1,17 @@
+
+Running 2 tests using 1 worker
+
+
+(node:12424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/2] e2e\brand-identity.spec.ts:336:1 › dashboard renderer advances real time, releases frame work, and survives simulated context loss
+e2e\brand-identity.spec.ts:336:1 › dashboard renderer advances real time, releases frame work, and survives simulated context loss
+CYBERLENS_ORB_SAMPLE {"renderer":"webgl","observationSeconds":0.8164999999999998,"drawCalls":18,"canvas":{"width":947,"height":547}}
+
+
+(node:42120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[2/2] e2e\ui-design-system.spec.ts:285:1 › empty analyst screens retain hierarchy and fit laptop width
+  2 passed (45.8s)

@@ -1,0 +1,46 @@
+# UI-00–UI-09 and UI-REF completion review — 2026-10-26
+
+This continuation uses the existing implementation and earlier preservation captures. Prior modules were already present. The remaining animation gap was the flat login SVG and a disabled static-motion control. The current implementation replaces that spin with a projected spherical Earth and adds explicit decorative motion opt-in, then revalidates the existing workspace.
+
+## Module coverage in the current source
+
+- **UI-00 — preservation baseline.** Original login measurements, computed styles, labels, caption, SVG structure/hash, field order, and mobile visibility remain asserted in `ui-design-system.spec.ts` and `login-globe.spec.ts`. Existing documentation maps routes and API boundaries. Original captures were retained.
+- **UI-01 — Arctic Graphite.** `design-system.css` scopes workspace tokens under `.app-shell`; `ui.tsx` and existing feature classes provide controls, tables, loading/empty/error states, and distinct severity/unavailable/unassessed/no-match badges. System fonts and local SVG icons remain. The supplied secondary accent is reserved for decoration; readable highlight text uses the stronger contrast token.
+- **UI-02 — login Earth.** `LoginGlobeGate`, `LoginGlobeBackground`, `digital-earth.ts`, and the scoped stylesheet provide local spherical projection, rotating continent points, atmospheric depth, and moving decorative connection lights. Lazy loading, static fallback, data saving, hidden/offscreen pause, manual pause, error handling, and cleanup are implemented. Reduced-motion users can explicitly opt into decorations; original branding/form motion remains governed by its existing preference. No package was added.
+- **UI-03 — shell.** `App.tsx` and shell styles retain every existing route, role condition, collapse preference, drawer focus trap, Escape dismissal, focus restoration, and accessible navigation label. Original local logo and TextRoll retain their entrance/replay behavior.
+- **UI-04 — overview/posture.** The existing Bento grid summarizes actual saved assessments, coverage, incidents, investigations, provider observations, Change Radar, monitoring, risk history, and service readiness. Exact values/disclosures and uncertainty remain prominent. The background orb and title are decorative siblings; pause/replay/enable controls do not start investigations or alter metrics.
+- **UI-05 — analytical screens.** Investigations, monitoring, Recharts, and `EvidenceGraphExplorer` retain datasets, timestamps, null gaps, policy-version separation, applicability, comparison, retries, pan/zoom, selection, stable positions, filtering, keyboard controls, accessible list/table alternatives, and large-graph limits. Direct and contextual relationships remain distinct.
+- **UI-06 — remaining workflows.** Assets, incidents/ATT&CK, remediation, threat modeling, integrations, reports, integrity, and administration use shared panel/control/status/table styling. Drafts, validation, authorization, report generation/downloads, and saved evidence remain attached to their original handlers and API contracts.
+- **UI-07 — motion.** Existing `motion.ts` handles initial reveals, late-arriving panels, hidden/offscreen gating, data saving, and cleanup. Original content stays visible when observation fails. The decorative title writes once and retains a restrained moving highlight. Dashboard shader/CSS fallback and Earth have pause controls. No operational values are animated into intermediate readings.
+- **UI-08 — responsive/accessibility.** Existing viewport/breakpoint checks cover390,679,680,681,767,768,899,900,901,1440px and effective zoom/long-content states. Wide tables/graphs scroll intentionally; body overflow, focus, names, role visibility, and semantic labels are checked. The original diagram remains hidden at<=680px. This is not accessibility certification.
+- **UI-09 — integration validation.** Type-check/build, targeted production tests, actual served-bundle checks, and the broader offline workflow/graph/globe suite verify the integrated result. Normal Demo records are not test fixtures; writes are confined to a separately named offline stack.
+- **UI-REF — guidance applied within these modules.** The seven images inform palette, card hierarchy, spacing, clear exact values, table rhythm, graph/context balance, and restrained effects. Their example counts, AI claims, attack maps, email protection, and firewall capabilities are not CyberLens data. [Individual reference analysis](ui-reference-analysis.md) records the mapping. The supplied title/orb examples use the existing CSS/native WebGL architecture rather than a framework migration.
+
+## Current effect evidence
+
+The deployed Demo frontend at https://localhost:8443 serves entry **index-D9PZpShf.js** and CSS **index-BcK7xYUa.css**. The Earth renderer is a separate **2.16kB gzip** chunk. In a fresh public login check, rendered pixels and axis rotation changed, pause froze frame work, and resume restarted it; zero page exceptions were recorded. The normalized original diagram hash remained `44e80fa6ef682f2b9e82dc8ff3be593ba5aedfb3020026d4e39683a2e068fd17`.
+
+- [Actual deployed animation video](design-system/screenshots/digital-earth-20261025/public-digital-earth.webm)
+- [Deployed login capture](design-system/screenshots/digital-earth-20261025/public-animated-login.png)
+- [User-reported static state before the fix](design-system/screenshots/digital-earth-20261025/reported-static.png)
+- [Dashboard with decorative motion enabled](design-system/screenshots/digital-earth-20261025/dashboard-explicit-motion.png)
+- [Detailed renderer implementation, bundle sizes, and earlier test failures/rechecks](digital-earth-effects-20261025.md)
+
+To see motion, hard-refresh with **Ctrl+F5**. If reduced motion is active, select **Reduced motion · Enable effects** on login or **Enable decorative motion** in the dashboard. This is an explicit override for decorations in the mounted application, not a change to system settings or saved accessibility preferences. Data saving intentionally keeps decorations static.
+
+## Final validation — 2026-10-26
+
+- `npm run typecheck` — passed for application and Playwright TypeScript.
+- `npm run build -- --outDir C:/Users/aryam/AppData/Local/Temp/cyberlens-digital-earth-dist-20261025` — passed, 684 modules; no new dependencies. The Docker frontend build also passed.
+- With Chrome and `CYBERLENS_BASE_URL`/`CYBERLENS_API_ORIGIN` set to `https://localhost:18445`: `npm run workflow:e2e -- e2e/evidence-graph.spec.ts e2e/login-globe.spec.ts --reporter=line --output=C:/Users/aryam/AppData/Local/Temp/cyberlens-all-ui-20261026` — **78 passed in 5.2 minutes**. This combines real offline API/worker/database workflows with mocked presentation/provider/graph/motion cases; it is not 78 live-provider tests. Isolated Admin/Analyst/Viewer accounts were supplied through environment variables.
+- Against the same isolated stack: `npx playwright test e2e/smoke.spec.ts --reporter=line --output=C:/Users/aryam/AppData/Local/Temp/cyberlens-final-smoke-20261026` — **1 passed in 7.6 seconds**. Real login and dashboard loading passed; no unexpected console errors, failed requests, HTTP errors, or server errors. The single expected unauthenticated session-probe 401 was recorded separately.
+- The tests retain login markup/geometry/style preservation assertions, including hidden diagram behavior at <=680px. Original screenshot baselines were not regenerated to accept changes.
+- The isolated `cyberlens-debug-20261025` stack was stopped after verification; its volumes were retained. Normal `cyberlens-demo` remains available on **https://localhost:8443**, with six health-checked services healthy and dispatcher running. No normal Demo records were used for workflow writes.
+
+Evidence: [78-test log](design-system/screenshots/digital-earth-20261025/all-ui-20261026.log), [real-backend smoke log](design-system/screenshots/digital-earth-20261025/smoke-20261026.log), [desktop](design-system/screenshots/digital-earth-20261025/offline-backend-overview-desktop-1440.png), [tablet](design-system/screenshots/digital-earth-20261025/offline-backend-overview-768.png), [mobile](design-system/screenshots/digital-earth-20261025/offline-backend-overview-390.png). These dashboard captures contain isolated offline synthetic records, not live security activity.
+
+## Scope and remaining limits
+
+Current runtime edits are confined to decorative frontend components, props/state, and scoped styles. No backend application code, schema, generated API definition, calculation, provider collector, security workflow, report renderer, dependency, or lockfile changed in this follow-up. The repository still has no committed Git baseline; existing untracked work was not staged/reset and no history was rewritten. Existing `.env` contents were not read or changed. Normal account passwords and stored evidence/reports were not reset or seeded.
+
+Browser checks use installed Chrome on Windows. Mocked fixtures, offline real-backend workflows, and public unauthenticated verification are identified separately. Live provider behavior, physical mobile devices, other browser engines, and production deployment are outside these UI checks.

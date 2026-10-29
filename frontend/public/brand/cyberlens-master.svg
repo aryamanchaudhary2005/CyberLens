@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 82" role="img" aria-labelledby="title description">
+  <title id="title">CyberLens logo master</title>
+  <desc id="description">A geometric blue and indigo C lens connected to a single evidence node, followed by the CyberLens wordmark.</desc>
+  <defs>
+    <linearGradient id="lens" x1="8" y1="10" x2="55" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#64A5FF" />
+      <stop offset="1" stop-color="#7968F1" />
+    </linearGradient>
+  </defs>
+  <g id="lens-mark" transform="translate(8 9)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path id="lens-c" d="M47 12.5C42.8 8.4 36.9 6 30 6 16.7 6 6 17.6 6 32s10.7 26 24 26c6.9 0 12.8-2.4 17-6.5" stroke="url(#lens)" stroke-width="7.5" />
+    <path id="evidence-link" d="M40 32h8.5" stroke="#90AEFF" stroke-width="3.4" />
+    <circle id="evidence-node" cx="53" cy="32" r="4.2" fill="#C6D2FF" stroke="#7968F1" stroke-width="2" />
+  </g>
+  <g id="wordmark" font-family="Arial, Helvetica, sans-serif">
+    <text x="82" y="45" fill="#EEF3FF" font-size="35" font-weight="700" letter-spacing="-1.15">CyberLens</text>
+    <text x="84" y="64" fill="#AAB6D0" font-size="8" font-weight="600" letter-spacing="2.1">SECURITY ANALYSIS WORKSPACE</text>
+  </g>
+</svg>

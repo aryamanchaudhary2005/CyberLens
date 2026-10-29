@@ -1,0 +1,1 @@
+{"objectClassName": "domain", "handle": "EXAMPLE-TEST", "ldhName": "example.test", "status": ["active"], "nameservers": [{"ldhName": "ns1.example.test"}], "events": [{"eventAction": "registration", "eventDate": "2025-01-01T00:00:00Z"}], "redacted": []}

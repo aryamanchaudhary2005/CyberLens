@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "email": "synthetic-person@example.test",
+  "breaches": [["ExampleForum", "Verified"]],
+  "exposedBreaches": [
+    {
+      "breachID": "ExampleForum-2024",
+      "breach": "ExampleForum",
+      "breachedDate": "2024-03-01T00:00:00+00:00",
+      "domain": "example.test",
+      "exposedData": ["Email addresses", "Names"],
+      "verified": true,
+      "exposureDescription": "Synthetic fixture text that must not be persisted."
+    }
+  ]
+}

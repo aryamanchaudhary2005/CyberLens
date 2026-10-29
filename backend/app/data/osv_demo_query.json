@@ -1,0 +1,18 @@
+{
+  "id": "CYBERLENS-DEMO-OSV-2026-0001",
+  "summary": "Synthetic vulnerable version for the offline package-analysis walkthrough",
+  "details": "This is a CyberLens-only Demo fixture. It is not a real OSV advisory and does not describe a real package vulnerability.",
+  "aliases": ["CVE-2026-10001"],
+  "published": "2026-10-17T00:00:00Z",
+  "modified": "2026-10-17T00:00:00Z",
+  "affected": [
+    {
+      "package": {"ecosystem": "npm", "name": "cyberlens-demo-widget", "purl": "pkg:npm/cyberlens-demo-widget"},
+      "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "1.0.0"}, {"fixed": "1.0.1"}]}],
+      "versions": ["1.0.0"],
+      "database_specific": {"severity": "HIGH"}
+    }
+  ],
+  "references": [{"type": "ADVISORY", "url": "https://example.invalid/cyberlens-demo-osv"}],
+  "severity": []
+}

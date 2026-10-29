@@ -1,0 +1,20 @@
+
+Running 9 tests using 1 worker
+
+
+
+(node:13784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/9] e2e\evidence-graph.spec.ts:113:1 › graph controls, evidence detail, filters, keyboard and list stay coordinated
+[2/9] e2e\evidence-graph.spec.ts:214:1 › synthetic graph profiles measure loading and interaction and gate effects by size
+e2e\evidence-graph.spec.ts:214:1 › synthetic graph profiles measure loading and interaction and gate effects by size
+{"benchmark":"synthetic evidence graph UI","test_date":"2026-10-25T16:00:35.274Z","os":"win32","architecture":"x64","cpu":"13th Gen Intel(R) Core(TM) i7-13620H","logical_cpus":16,"reported_memory_bytes":16890322944,"browser":"155.0.8059.86","viewport":{"width":1280,"height":720},"fixture_source":"deterministic generated test data; no production indicators","measurements":[{"nodes":20,"edges":28,"render_ms":402.1,"search_ms":266.1,"profile":"full"},{"nodes":120,"edges":240,"render_ms":549.8,"search_ms":427.6,"profile":"full"},{"nodes":400,"edges":800,"render_ms":862.8,"search_ms":564.3,"profile":"simplified"}]}
+
+[3/9] e2e\evidence-graph.spec.ts:252:1 › empty and unavailable graph projections are explicit and retryable
+[4/9] e2e\login-globe.spec.ts:31:1 › login globe stays behind the preserved login content at 390, 768, and 1440 pixels
+[5/9] e2e\login-globe.spec.ts:109:1 › globe motion pauses and resumes accessibly, and reduced motion is static
+[6/9] e2e\login-globe.spec.ts:132:1 › saved application motion preference also renders the globe statically
+[7/9] e2e\login-globe.spec.ts:141:1 › offscreen and hidden-document states pause CSS globe motion and restore it when visible
+[8/9] e2e\login-globe.spec.ts:195:1 › a failed lazy globe import falls back locally while login renders immediately
+[9/9] e2e\login-globe.spec.ts:206:1 › an unavailable globe asset uses a static fallback without blocking login
+  9 passed (41.0s)

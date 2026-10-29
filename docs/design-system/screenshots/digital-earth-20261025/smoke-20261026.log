@@ -1,0 +1,12 @@
+
+Running 1 test using 1 worker
+
+
+
+(node:5092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/1] e2e\smoke.spec.ts:3:1 › application starts and the initial administrator can sign in
+e2e\smoke.spec.ts:3:1 › application starts and the initial administrator can sign in
+MODULE31_BROWSER_DIAGNOSTICS {"console_errors":["Failed to load resource: the server responded with a status of 401 ()"],"expected_auth_401s":1,"unexpected_http_errors":[],"failed_requests":[],"server_errors":[]}
+
+  1 passed (7.6s)
